@@ -21,7 +21,7 @@ import Foundation
 /// - cover: The page is presented in fullscreen.
 ///
 /// Each case is associated with a string value for encoding and decoding purposes.
-public enum PKSPresentationMethod: String, Codable {
+public enum PKSPresentationMethod: String, Codable, Hashable {
     /// The page is presented in a stack.
     case stack = "STACK"
     
