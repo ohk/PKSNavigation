@@ -1,18 +1,22 @@
-// The Swift Programming Language
-// https://docs.swift.org/swift-book
-
 import SwiftUI
 import OSLog
 
-/// A class that manages navigation within the app, supporting stack, sheet, and cover presentations.
+/// A class responsible for managing navigation within the app, supporting stack, sheet, and cover presentations.
 ///
 /// `PKSNavigationManager` provides functionality for navigating between different views using various presentation methods.
 /// It maintains navigation paths for each presentation method and handles logging if enabled.
 ///
-/// Example:
+/// Example usage:
 ///
-///     let navigationManager = PKSNavigationManager()
-///     navigationManager.navigate(to: myPage, presentation: .sheet)
+/// ```swift
+/// let navigationManager = PKSNavigationManager()
+/// navigationManager.navigate(to: myPage, presentation: .sheet)
+/// ```
+///
+/// The class maintains separate navigation paths for stack, sheet, and cover presentations, ensuring a seamless navigation experience.
+///
+/// - Author: Ömer Hamid Kamışlı
+/// - Version: 1.0
 ///
 open class PKSNavigationManager: ObservableObject {
 
@@ -40,7 +44,9 @@ open class PKSNavigationManager: ObservableObject {
     /// The logger instance for logging navigation events.
     private var logger: Logger
 
-    /// Initializes a new navigation manager.
+    /// Initializes a new navigation manager instance.
+    ///
+    /// This initializer sets up the logger and initializes the class with the default values.
     public init() {
         let className = String(describing: type(of: self))
         logger = Logger(subsystem: "PKSNavigation", category: className)
@@ -48,6 +54,8 @@ open class PKSNavigationManager: ObservableObject {
     }
 
     /// Sets the parent navigation manager.
+    ///
+    /// - Parameter parent: The parent navigation manager.
     public func setParents(_ parent: PKSNavigationManager?) {
         self.parent = parent
     }
@@ -56,7 +64,9 @@ open class PKSNavigationManager: ObservableObject {
         logger.debug("PKSNavigation deinit. \(String(describing: type(of: self)))")
     }
 
-    /// Add new page to the root navigation stack.
+    /// Adds a new page to the root navigation stack.
+    ///
+    /// - Parameter page: The page to navigate to.
     private func handleStackNavigation(page: any PKSPage) {
         if PKSNavigationConfiguration.isLoggerEnabled {
             logger.debug("Navigating to \(page.description) with stack presentation.")
@@ -65,33 +75,29 @@ open class PKSNavigationManager: ObservableObject {
         rootPath.append(page)
     }
 
-    /// Add new page to the root sheet navigation stack.
-    /// 
+    /// Adds a new page to the root sheet navigation stack.
+    ///
     /// If the root sheet is not nil, the new page is added to the sheet path.
     /// Otherwise, the root sheet is set to the new page.
     ///
-    /// - Note: You can override the default sheet presentation by setting the `isRoot` parameter to `true`.
-    ///
     /// - Parameters:
-    ///  - page: The page to navigate to.
-    ///  - isRoot: A Boolean value indicating whether the page should be the root of the navigation stack.
+    ///   - page: The page to navigate to.
+    ///   - isRoot: A Boolean value indicating whether the page should be the root of the navigation stack.
     /// - Returns: Void
     private func handleSheetNavigation(page: any PKSPage, isRoot: Bool) {
         if PKSNavigationConfiguration.isLoggerEnabled {
             logger.debug("Navigating to \(page.description) with sheet presentation.")
         }
         // If the active presentation is not sheet, set it to sheet.
-        if presentation != .sheet {
+        if activePresentation != .sheet {
             activePresentation = .sheet
         }
 
         if isRoot || rootSheet == nil {
             if #available(iOS 17, *) {
-               
                 if rootSheet != nil {
                     sheetPath.clear()
-                } 
-
+                }
                 rootSheet = RootView(wrapped: page)
             } else {
                 // Workaround for iOS 16 bug affecting .sheet(item:) function.
@@ -110,6 +116,12 @@ open class PKSNavigationManager: ObservableObject {
         }
     }
 
+    /// Adds a new page to the root cover navigation stack.
+    ///
+    /// - Parameters:
+    ///   - page: The page to navigate to.
+    ///   - isRoot: A Boolean value indicating whether the page should be the root of the navigation stack.
+    /// - Returns: Void
     private func handleCoverNavigation(page: any PKSPage, isRoot: Bool) {
         if PKSNavigationConfiguration.isLoggerEnabled {
             logger.debug("Navigating to \(page.description) with cover presentation.")
