@@ -193,7 +193,7 @@ open class PKSNavigationManager: ObservableObject {
             case .stack, .cover:
                 parent?.navigate(to: page, presentation: presentation, isRoot: isRoot)
             case .sheet:
-                handleCoverNavigation(page: page, isRoot: isRoot)
+                handleSheetNavigation(page: page, isRoot: isRoot)
             }
         case nil:
             switch activePresentation {
