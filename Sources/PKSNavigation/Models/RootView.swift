@@ -63,8 +63,8 @@ public struct RootView: Identifiable, Equatable, Hashable {
     /// Otherwise, it displays a fallback message indicating an issue.
     @ViewBuilder
     public var view: some View {
-        if let root = wrapped.view as? AnyView {
-            root
+        if let root = wrapped.getView() as? (any View) {
+            AnyView(root)
         } else {
             VStack {
                 Text("ISSUE DETECTED. SEE THE LOGS")

@@ -30,7 +30,7 @@ public protocol PKSPage: Hashable, Identifiable {
     /// A view builder that constructs the view for this page.
     ///
     /// Implement this method to provide the content for your custom page.
-    @ViewBuilder var view: Self.V { get }
+    @ViewBuilder func getView() -> Self.V
 
     /// A description of the page.
     var description: String { get }
