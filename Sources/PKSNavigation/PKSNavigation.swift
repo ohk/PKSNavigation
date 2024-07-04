@@ -44,6 +44,8 @@ open class PKSNavigationManager: ObservableObject {
     /// The logger instance for logging navigation events.
     private var logger: Logger
 
+    private var history: [PKSHistoryItem] = []
+    
     /// Initializes a new navigation manager instance.
     ///
     /// This initializer sets up the logger and initializes the class with the default values.
@@ -68,6 +70,17 @@ open class PKSNavigationManager: ObservableObject {
     ///
     /// - Parameter page: The page to navigate to.
     private func handleStackNavigation(page: any PKSPage) {
+        history.append(
+            PKSHistoryItem(
+                page: page,
+                presentation: .stack,
+                timestamp: Date(),
+                message: nil,
+                isAppended: true,
+                isParent: false
+            )
+        )
+        
         if PKSNavigationConfiguration.isLoggerEnabled {
             logger.debug("Navigating to \(page.description) with stack presentation.")
         }
@@ -85,6 +98,17 @@ open class PKSNavigationManager: ObservableObject {
     ///   - isRoot: A Boolean value indicating whether the page should be the root of the navigation stack.
     /// - Returns: Void
     private func handleSheetNavigation(page: any PKSPage, isRoot: Bool) {
+        history.append(
+            PKSHistoryItem(
+                page: page,
+                presentation: .sheet,
+                timestamp: Date(),
+                message: nil,
+                isAppended: true,
+                isParent: false
+            )
+        )
+        
         if PKSNavigationConfiguration.isLoggerEnabled {
             logger.debug("Navigating to \(page.description) with sheet presentation.")
         }
@@ -123,6 +147,17 @@ open class PKSNavigationManager: ObservableObject {
     ///   - isRoot: A Boolean value indicating whether the page should be the root of the navigation stack.
     /// - Returns: Void
     private func handleCoverNavigation(page: any PKSPage, isRoot: Bool) {
+        history.append(
+            PKSHistoryItem(
+                page: page,
+                presentation: .cover,
+                timestamp: Date(),
+                message: nil,
+                isAppended: true,
+                isParent: false
+            )
+        )
+        
         if PKSNavigationConfiguration.isLoggerEnabled {
             logger.debug("Navigating to \(page.description) with cover presentation.")
         }
@@ -154,6 +189,24 @@ open class PKSNavigationManager: ObservableObject {
             coverPath.append(page)
         }
     }
+    
+    private func navigateWithParent(
+        to page: any PKSPage,
+        presentation: PKSPresentationMethod = .stack,
+        isRoot: Bool = false
+    ) {
+        history.append(
+            PKSHistoryItem(
+                page: page,
+                presentation: presentation,
+                timestamp: Date(),
+                message: nil,
+                isAppended: true,
+                isParent: true
+            )
+        )
+        parent?.navigate(to: page, presentation: presentation, isRoot: isRoot)
+    }
 
     /// Called when a modal is dismissed.
     public func onModalDismissed() {
@@ -180,18 +233,18 @@ open class PKSNavigationManager: ObservableObject {
     ) {
         switch parent?.activePresentation {
         case .stack:
-            parent?.navigate(to: page, presentation: presentation, isRoot: isRoot)
+            navigateWithParent(to: page, presentation: presentation, isRoot: isRoot)
         case .sheet:
             switch presentation {
             case .stack, .sheet:
-                parent?.navigate(to: page, presentation: presentation, isRoot: isRoot)
+                navigateWithParent(to: page, presentation: presentation, isRoot: isRoot)
             case .cover:
                 handleCoverNavigation(page: page, isRoot: isRoot)
             }
         case .cover:
             switch presentation {
             case .stack, .cover:
-                parent?.navigate(to: page, presentation: presentation, isRoot: isRoot)
+                navigateWithParent(to: page, presentation: presentation, isRoot: isRoot)
             case .sheet:
                 handleSheetNavigation(page: page, isRoot: isRoot)
             }
