@@ -218,6 +218,8 @@ open class PKSNavigationManager: ObservableObject {
         } else if activePresentation == .cover {
             coverPath.clear()
         }
+        
+        activePresentation = .stack
     }
 
     /// Navigates to the specified page using the given presentation method.
