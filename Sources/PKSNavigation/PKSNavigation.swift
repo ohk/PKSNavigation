@@ -17,7 +17,7 @@ import OSLog
 open class PKSNavigationManager: ObservableObject {
 
     /// The currently active presentation method.
-    private(set) var activePresentation: PKSPresentationMethod = .stack
+    @Published private(set) var activePresentation: PKSPresentationMethod = .stack
 
     /// The navigation path for stack presentation.
     @Published public var rootPath: NavigationPath = .init()
@@ -33,20 +33,30 @@ open class PKSNavigationManager: ObservableObject {
 
     /// The root view for cover presentation.
     @Published public var rootCover: RootView? = nil
-
+    
+    /// The parent navigation manager.
+    public private(set) var parent: PKSNavigationManager?
+    
     /// The logger instance for logging navigation events.
     private var logger: Logger
 
     /// Initializes a new navigation manager.
     public init() {
-        logger = Logger(subsystem: "PKSNavigation", category: String(describing: type(of: self)))
-        logger.debug("PKSNavigation created. \(String(describing: type(of: self)))")
+        let className = String(describing: type(of: self))
+        logger = Logger(subsystem: "PKSNavigation", category: className)
+        logger.debug("PKSNavigation created. \(className)")
+    }
+
+    /// Sets the parent navigation manager.
+    public func setParents(_ parent: PKSNavigationManager?) {
+        self.parent = parent
     }
 
     deinit {
         logger.debug("PKSNavigation deinit. \(String(describing: type(of: self)))")
     }
 
+    /// Add new page to the root navigation stack.
     private func handleStackNavigation(page: any PKSPage) {
         if PKSNavigationConfiguration.isLoggerEnabled {
             logger.debug("Navigating to \(page.description) with stack presentation.")
@@ -55,21 +65,45 @@ open class PKSNavigationManager: ObservableObject {
         rootPath.append(page)
     }
 
+    /// Add new page to the root sheet navigation stack.
+    /// 
+    /// If the root sheet is not nil, the new page is added to the sheet path.
+    /// Otherwise, the root sheet is set to the new page.
+    ///
+    /// - Note: You can override the default sheet presentation by setting the `isRoot` parameter to `true`.
+    ///
+    /// - Parameters:
+    ///  - page: The page to navigate to.
+    ///  - isRoot: A Boolean value indicating whether the page should be the root of the navigation stack.
+    /// - Returns: Void
     private func handleSheetNavigation(page: any PKSPage, isRoot: Bool) {
         if PKSNavigationConfiguration.isLoggerEnabled {
             logger.debug("Navigating to \(page.description) with sheet presentation.")
         }
-        activePresentation = .sheet
+        // If the active presentation is not sheet, set it to sheet.
+        if presentation != .sheet {
+            activePresentation = .sheet
+        }
 
         if isRoot || rootSheet == nil {
-            if rootSheet != nil {
-                rootSheet = nil
-                sheetPath.clear()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { [weak self] in
-                    self?.rootSheet = RootView(wrapped: page)
-                }
-            } else {
+            if #available(iOS 17, *) {
+               
+                if rootSheet != nil {
+                    sheetPath.clear()
+                } 
+
                 rootSheet = RootView(wrapped: page)
+            } else {
+                // Workaround for iOS 16 bug affecting .sheet(item:) function.
+                if rootSheet != nil {
+                    rootSheet = nil
+                    sheetPath.clear()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { [weak self] in
+                        self?.rootSheet = RootView(wrapped: page)
+                    }
+                } else {
+                    rootSheet = RootView(wrapped: page)
+                }
             }
         } else {
             sheetPath.append(page)
@@ -80,17 +114,29 @@ open class PKSNavigationManager: ObservableObject {
         if PKSNavigationConfiguration.isLoggerEnabled {
             logger.debug("Navigating to \(page.description) with cover presentation.")
         }
-        activePresentation = .cover
+
+        // If the active presentation is not cover, set it to cover.
+        if activePresentation != .cover {
+            activePresentation = .cover
+        }
 
         if isRoot || rootCover == nil {
-            if rootCover != nil {
-                rootCover = nil
-                rootPath.clear()
-                DispatchQueue.main.asyncAfter(deadline: .now()) { [weak self] in
-                    self?.rootCover = RootView(wrapped: page)
+            if #available(iOS 17, *) {
+                if rootCover != nil {
+                    coverPath.clear()
                 }
-            } else {
                 rootCover = RootView(wrapped: page)
+            } else {
+                // Workaround for iOS 16 bug affecting .cover(item:) function.
+                if rootCover != nil {
+                    rootCover = nil
+                    rootPath.clear()
+                    DispatchQueue.main.asyncAfter(deadline: .now()) { [weak self] in
+                        self?.rootCover = RootView(wrapped: page)
+                    }
+                } else {
+                    rootCover = RootView(wrapped: page)
+                }
             }
         } else {
             coverPath.append(page)
@@ -120,20 +166,39 @@ open class PKSNavigationManager: ObservableObject {
         presentation: PKSPresentationMethod = .stack,
         isRoot: Bool = false
     ) {
-        switch activePresentation {
+        switch parent?.activePresentation {
         case .stack:
+            parent?.navigate(to: page, presentation: presentation, isRoot: isRoot)
+        case .sheet:
             switch presentation {
+            case .stack, .sheet:
+                parent?.navigate(to: page, presentation: presentation, isRoot: isRoot)
+            case .cover:
+                handleCoverNavigation(page: page, isRoot: isRoot)
+            }
+        case .cover:
+            switch presentation {
+            case .stack, .cover:
+                parent?.navigate(to: page, presentation: presentation, isRoot: isRoot)
+            case .sheet:
+                handleCoverNavigation(page: page, isRoot: isRoot)
+            }
+        case nil:
+            switch activePresentation {
             case .stack:
-                handleStackNavigation(page: page)
+                switch presentation {
+                case .stack:
+                    handleStackNavigation(page: page)
+                case .sheet:
+                    handleSheetNavigation(page: page, isRoot: isRoot)
+                case .cover:
+                    handleCoverNavigation(page: page, isRoot: isRoot)
+                }
             case .sheet:
                 handleSheetNavigation(page: page, isRoot: isRoot)
             case .cover:
                 handleCoverNavigation(page: page, isRoot: isRoot)
             }
-        case .sheet:
-            handleSheetNavigation(page: page, isRoot: isRoot)
-        case .cover:
-            handleCoverNavigation(page: page, isRoot: isRoot)
         }
     }
 }
