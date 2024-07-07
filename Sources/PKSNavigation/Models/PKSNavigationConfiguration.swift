@@ -22,20 +22,22 @@ public class PKSNavigationConfiguration: ObservableObject {
 
     /// The shared instance of the navigation configuration.
     static var shared: PKSNavigationConfiguration = .init()
-    
+
     /// A Boolean value indicating whether logging is enabled.
     ///
     /// Use the `enableLogger` and `disableLogger` methods to change this value.
     public private(set) static var isLoggerEnabled: Bool = true
-    
+
     /// Private initializer to enforce the singleton pattern.
-    private init() {}
+    private init() {
+        // Prevent external initialization.
+    }
 
     /// Enables logging.
     public static func enableLogger() {
         PKSNavigationConfiguration.isLoggerEnabled = true
     }
-    
+
     /// Disables logging.
     public static func disableLogger() {
         PKSNavigationConfiguration.isLoggerEnabled = false
