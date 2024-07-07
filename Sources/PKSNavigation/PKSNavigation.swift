@@ -1,5 +1,5 @@
-import SwiftUI
 import OSLog
+import SwiftUI
 
 /// A class responsible for managing navigation within the app, supporting stack, sheet, and cover presentations.
 ///
@@ -37,15 +37,16 @@ open class PKSNavigationManager: ObservableObject {
 
     /// The root view for cover presentation.
     @Published public var rootCover: RootView? = nil
-    
+
     /// The parent navigation manager.
     public private(set) var parent: PKSNavigationManager?
-    
+
     /// The logger instance for logging navigation events.
     private var logger: Logger
 
-    private var history: [PKSHistoryItem] = []
-    
+    /// The navigation history for the current navigation manager.
+    private var history: PKSStack<PKSHistoryItem> = .init()
+
     /// Initializes a new navigation manager instance.
     ///
     /// This initializer sets up the logger and initializes the class with the default values.
@@ -70,7 +71,7 @@ open class PKSNavigationManager: ObservableObject {
     ///
     /// - Parameter page: The page to navigate to.
     private func handleStackNavigation(page: any PKSPage) {
-        history.append(
+        history.push(
             PKSHistoryItem(
                 page: page,
                 presentation: .stack,
@@ -80,7 +81,7 @@ open class PKSNavigationManager: ObservableObject {
                 isParent: false
             )
         )
-        
+
         if PKSNavigationConfiguration.isLoggerEnabled {
             logger.debug("Navigating to \(page.description) with stack presentation.")
         }
@@ -98,7 +99,7 @@ open class PKSNavigationManager: ObservableObject {
     ///   - isRoot: A Boolean value indicating whether the page should be the root of the navigation stack.
     /// - Returns: Void
     private func handleSheetNavigation(page: any PKSPage, isRoot: Bool) {
-        history.append(
+        history.push(
             PKSHistoryItem(
                 page: page,
                 presentation: .sheet,
@@ -108,7 +109,7 @@ open class PKSNavigationManager: ObservableObject {
                 isParent: false
             )
         )
-        
+
         if PKSNavigationConfiguration.isLoggerEnabled {
             logger.debug("Navigating to \(page.description) with sheet presentation.")
         }
@@ -147,7 +148,7 @@ open class PKSNavigationManager: ObservableObject {
     ///   - isRoot: A Boolean value indicating whether the page should be the root of the navigation stack.
     /// - Returns: Void
     private func handleCoverNavigation(page: any PKSPage, isRoot: Bool) {
-        history.append(
+        history.push(
             PKSHistoryItem(
                 page: page,
                 presentation: .cover,
@@ -157,7 +158,7 @@ open class PKSNavigationManager: ObservableObject {
                 isParent: false
             )
         )
-        
+
         if PKSNavigationConfiguration.isLoggerEnabled {
             logger.debug("Navigating to \(page.description) with cover presentation.")
         }
@@ -177,7 +178,7 @@ open class PKSNavigationManager: ObservableObject {
                 // Workaround for iOS 16 bug affecting .cover(item:) function.
                 if rootCover != nil {
                     rootCover = nil
-                    rootPath.clear()
+                    //                    rootPath.clear()
                     DispatchQueue.main.asyncAfter(deadline: .now()) { [weak self] in
                         self?.rootCover = RootView(wrapped: page)
                     }
@@ -189,13 +190,13 @@ open class PKSNavigationManager: ObservableObject {
             coverPath.append(page)
         }
     }
-    
+
     private func navigateWithParent(
         to page: any PKSPage,
         presentation: PKSPresentationMethod = .stack,
         isRoot: Bool = false
     ) {
-        history.append(
+        history.push(
             PKSHistoryItem(
                 page: page,
                 presentation: presentation,
@@ -218,7 +219,7 @@ open class PKSNavigationManager: ObservableObject {
         } else if activePresentation == .cover {
             coverPath.clear()
         }
-        
+
         activePresentation = .stack
     }
 
@@ -265,6 +266,37 @@ open class PKSNavigationManager: ObservableObject {
                 handleSheetNavigation(page: page, isRoot: isRoot)
             case .cover:
                 handleCoverNavigation(page: page, isRoot: isRoot)
+            }
+        }
+    }
+
+    /// Navigates back to the previous page in the navigation stack.
+    func navigateBack() {
+        if let historyLast = history.pop() {
+            if historyLast.isParent {
+                parent?.navigateBack()
+                if PKSNavigationConfiguration.isLoggerEnabled {
+                    logger.debug("Navigating back with parent.")
+                }
+            } else {
+                if PKSNavigationConfiguration.isLoggerEnabled {
+                    logger.debug(
+                        "Navigating back from \(historyLast.page?.description ?? "nil").")
+                }
+                switch historyLast.presentation {
+                case .stack:
+                    rootPath.removeLast()
+                case .sheet:
+                    sheetPath.removeLast()
+                case .cover:
+                    coverPath.removeLast()
+                case .none:
+                    break
+                }
+            }
+        } else {
+            if PKSNavigationConfiguration.isLoggerEnabled {
+                logger.debug("No history to navigate back.")
             }
         }
     }
