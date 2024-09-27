@@ -16,7 +16,7 @@ struct PKSHistoryItem: Identifiable, Equatable, Hashable {
     var page: (any PKSPage)? = nil
 
     // The presentation method used to navigate to the page.
-    var presentation: PKSPresentationMethod? = nil
+    var presentation: PKSPresentationMethod
 
     // The timestamp of the navigation event.
     var timestamp: Date = .now
