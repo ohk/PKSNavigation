@@ -46,7 +46,7 @@ import SwiftUI
     /// - Returns: A modified view with sheet and full-screen cover presentations managed by the navigation manager.
     public func body(content: Content) -> some View {
         content
-            .sheet(item: $navigationManager.rootSheet, onDismiss: navigationManager.onModalDismissed) { page in
+            .sheet(item: $navigationManager.rootSheet, onDismiss: navigationManager.onSheetModalDismissed) { page in
                 NavigationStack(path: $navigationManager.sheetPath) {
                     page.view
                         .environmentObject(navigationManager)
@@ -57,7 +57,7 @@ import SwiftUI
                 }
                 .presentationDragIndicator(.visible)
             }
-            .fullScreenCover(item: $navigationManager.rootCover, onDismiss: navigationManager.onModalDismissed) { page in
+            .fullScreenCover(item: $navigationManager.rootCover, onDismiss: navigationManager.onCoverModalDismissed) { page in
                 NavigationStack(path: $navigationManager.coverPath) {
                     page.view
                         .environmentObject(navigationManager)

@@ -204,21 +204,48 @@ open class PKSNavigationManager: ObservableObject {
         }
     }
     
-
-    /// Called when a modal is dismissed.
+    /// Called when a sheet modal is dismissed.
     ///
-    /// This method resets the navigation paths for sheet and cover presentations and updates the active presentation method.
-    public func onModalDismissed() {
+    /// This method resets the navigation paths for sheet presentations and updates the active presentation method.
+    public func onSheetModalDismissed() {
         logger.debug(
-            "Modal dismissed. Resetting navigation paths based on active presentation: \(self.activePresentation.rawValue)."
+            "Sheet modal dismissed. Resetting navigation paths based on active presentation: \(self.activePresentation.rawValue)."
         )
-        if activePresentation == .sheet {
-            sheetPath.clear()
-            logger.debug("sheetPath cleared.")
-        } else if activePresentation == .cover {
-            coverPath.clear()
-            logger.debug("coverPath cleared.")
+
+        logger.debug("Popping history items until a non-sheet presentation is found.")
+        var popCount = 0
+
+        while let historyItem = history.peek(), historyItem.presentation == .sheet {
+            history.pop()
+            popCount += 1
         }
+
+        sheetPath.clear()
+        logger.debug("sheetPath cleared. Popped \(popCount) history items.")
+
+        activePresentation = .stack
+        logger.debug("Active presentation set to .stack after modal dismissal.")
+    }
+    
+    /// Called when a cover modal is dismissed.
+    ///
+    /// This method resets the navigation paths for cover presentations and updates the active presentation method.
+    public func onCoverModalDismissed() {
+        logger.debug(
+            "Cover modal dismissed. Resetting navigation paths based on active presentation: \(self.activePresentation.rawValue)."
+        )
+
+        logger.debug("Popping history items until a non-cover presentation is found.")
+        var popCount = 0
+
+        while let historyItem = history.peek(), historyItem.presentation == .cover {
+            history.pop()
+            popCount += 1
+        }
+
+        coverPath.clear()
+        logger.debug("coverPath cleared. Popped \(popCount) history items.")
+    
         activePresentation = .stack
         logger.debug("Active presentation set to .stack after modal dismissal.")
     }
