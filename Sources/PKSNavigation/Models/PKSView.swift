@@ -1,5 +1,5 @@
 //
-//  RootView.swift
+//  PKSView.swift
 //  
 //
 //  Created by Ömer Hamid Kamışlı on 7/1/24.
@@ -9,7 +9,7 @@ import SwiftUI
 
 /// A view that represents a root view in your app's user interface.
 ///
-/// `RootView` encapsulates a wrapped view conforming to the `PKSPage` protocol,
+/// `PKSView` encapsulates a wrapped view conforming to the `PKSPage` protocol,
 /// providing an identifiable and hashable structure to manage the view hierarchy
 /// effectively. This view helps ensure consistency in displaying content and
 /// handling view-related issues.
@@ -18,11 +18,11 @@ import SwiftUI
 ///
 ///     struct ContentView: View {
 ///         var body: some View {
-///             RootView(wrapped: MyPKSPage())
+///             PKSView(wrapped: MyPKSPage())
 ///         }
 ///     }
 ///
-public struct RootView: Identifiable, Equatable, Hashable {
+public struct PKSView: Identifiable, Equatable, Hashable {
     
     // MARK: - Identifiable Conformance
     
@@ -42,7 +42,7 @@ public struct RootView: Identifiable, Equatable, Hashable {
     ///   - lhs: The left-hand side `RootView` instance.
     ///   - rhs: The right-hand side `RootView` instance.
     /// - Returns: A Boolean value indicating whether the two instances are equal.
-    public static func == (lhs: RootView, rhs: RootView) -> Bool {
+    public static func == (lhs: PKSView, rhs: PKSView) -> Bool {
         rhs.wrapped.id == lhs.wrapped.id
     }
     
@@ -61,17 +61,9 @@ public struct RootView: Identifiable, Equatable, Hashable {
     ///
     /// This computed property returns the wrapped view if it can be cast to `AnyView`.
     /// Otherwise, it displays a fallback message indicating an issue.
-    @ViewBuilder
+    @MainActor @ViewBuilder
     public var view: some View {
-        if let root = wrapped.getView() as? (any View) {
-            AnyView(root)
-        } else {
-            VStack {
-                Text("ISSUE DETECTED. SEE THE LOGS")
-                    .font(.title)
-                Text("POIKUS LLC")
-                Text("NAVIGATION MANAGER")
-            }
-        }
+       AnyView(wrapped.body)
     }
 }
+

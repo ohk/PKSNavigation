@@ -14,24 +14,41 @@ import SwiftUI
 ///
 /// Example:
 ///
-///     struct MyPage: PKSPage {
-///         var description: String = "This is my page"
+///     enum Pages: PKSPage {
+///         case pageOne
+///         case pageTwo
+///         
+///         var description: String = {
+///             switch self {
+///             case pageOne:
+///                 return "Page One"
+///             case pageTwo:
+///                 return "Page Two"
+///             }
+///         }
 ///
 ///         func view() -> some View {
-///             Text(description)
+///             switch self {
+///             case pageOne:
+///                 PageOne()
+///             case pageTwo:
+///                 PageTwo()
+///             }
 ///         }
 ///     }
 ///
+import SwiftUI
+
 public protocol PKSPage: Hashable, Identifiable {
-
+    
     /// The type of view representing the body of this page.
-    associatedtype V = View
-
+    associatedtype Body: View
+    
     /// A view builder that constructs the view for this page.
     ///
     /// Implement this method to provide the content for your custom page.
-    @ViewBuilder func getView() -> Self.V
-
+    @MainActor @ViewBuilder var body: Self.Body { get }
+    
     /// A description of the page.
     var description: String { get }
 }
