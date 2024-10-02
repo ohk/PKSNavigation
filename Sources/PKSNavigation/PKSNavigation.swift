@@ -271,7 +271,7 @@ open class PKSNavigationManager: ObservableObject {
     /// This method clears the navigation history and delegates the termination action to the parent manager if available.
     public func killTheFlow() {
         logger.warning("Killing the current navigation flow. Clearing history.")
-        while let historyItem = history.pop() {
+        while let historyItem = history.peek() {
             logger.debug(
                 "Clearing history item: \(String(describing: historyItem.page?.description)).")
             if historyItem.isParent {
