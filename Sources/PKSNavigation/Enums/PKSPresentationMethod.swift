@@ -3,6 +3,7 @@
 //
 //
 //  Created by Ömer Hamid Kamışlı on 7/1/24.
+//  Copyright © 2024 POIKUS LLC. All rights reserved.
 //
 
 import Foundation
@@ -24,11 +25,10 @@ import Foundation
 public enum PKSPresentationMethod: String, Codable, Hashable {
     /// The page is presented in a stack.
     case stack = "STACK"
-    
+
     /// The page is presented as a sheet.
     case sheet = "SHEET"
-    
+
     /// The page is presented in fullscreen.
     case cover = "FULLSCREEN"
 }
-
