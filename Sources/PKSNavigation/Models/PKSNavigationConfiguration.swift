@@ -3,6 +3,7 @@
 //
 //
 //  Created by Ömer Hamid Kamışlı on 7/1/24.
+//  Copyright © 2024 POIKUS LLC. All rights reserved.
 //
 
 import SwiftUI
