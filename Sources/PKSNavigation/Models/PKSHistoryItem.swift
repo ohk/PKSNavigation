@@ -1,8 +1,9 @@
 //
 //  PKSHistoryItem.swift
-//  
+//
 //
 //  Created by Ömer Hamid Kamışlı on 7/4/24.
+//  Copyright © 2024 POIKUS LLC. All rights reserved.
 //
 
 import Foundation
@@ -34,7 +35,7 @@ struct PKSHistoryItem: Identifiable, Equatable, Hashable {
     static func == (lhs: PKSHistoryItem, rhs: PKSHistoryItem) -> Bool {
         return lhs.id == rhs.id
     }
-    
+
     // MARK: - Hashable
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
