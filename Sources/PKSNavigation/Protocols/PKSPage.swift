@@ -3,9 +3,8 @@
 //
 //
 //  Created by Ömer Hamid Kamışlı on 7/1/24.
+//  Copyright © 2024 POIKUS LLC. All rights reserved.
 //
-
-import SwiftUI
 
 /// A protocol that represents a page in your app's user interface.
 ///
@@ -17,7 +16,7 @@ import SwiftUI
 ///     enum Pages: PKSPage {
 ///         case pageOne
 ///         case pageTwo
-///         
+///
 ///         var description: String = {
 ///             switch self {
 ///             case pageOne:
@@ -40,22 +39,22 @@ import SwiftUI
 import SwiftUI
 
 public protocol PKSPage: Hashable, Identifiable {
-    
+
     /// The type of view representing the body of this page.
     associatedtype Body: View
-    
+
     /// A view builder that constructs the view for this page.
     ///
     /// Implement this method to provide the content for your custom page.
     @MainActor @ViewBuilder var body: Self.Body { get }
-    
+
     /// A description of the page.
     var description: String { get }
 }
 
-public extension PKSPage {
+extension PKSPage {
     /// A unique identifier for the page, derived from the hash value.
-    var id: Int {
+    public var id: Int {
         return self.hashValue
     }
 }
