@@ -118,7 +118,51 @@ open class PKSNavigationManager: ObservableObject {
     ///   - page: The page to navigate to, conforming to `PKSPage`.
     ///   - presentation: The presentation method to use. Options are `.stack`, `.sheet`, or `.cover`. Defaults to `.stack`.
     ///   - isRoot: A Boolean value indicating whether the page should be set as the root of the navigation stack. Defaults to `false`.
-    public func navigate(to page: any PKSPage, presentation: PKSPresentationMethod = .stack, isRoot: Bool = false, isNavigatingWithParent: Bool = false) {
+    func navigate(to page: any PKSPage, presentation: PKSPresentationMethod = .stack, isRoot: Bool = false) {
+        logger.debug(
+            "Request to navigate to \(page.description) with presentation: \(presentation.rawValue), isRoot: \(isRoot)."
+        )
+        
+        switch presentation {
+        case .stack:
+            switch activePresentation {
+            case .stack:
+                handleStackNavigation(page: page)
+            case .sheet:
+                logger.debug("Current active presentation is sheet. Handling stack navigation within sheet.")
+                handleSheetNavigation(page: page, isRoot: isRoot)
+            case .cover:
+                logger.debug("Current active presentation is cover. Handling stack navigation within cover.")
+                handleCoverNavigation(page: page, isRoot: isRoot)
+            }
+        case .sheet:
+            if isSheetStackRegistered {
+                handleSheetNavigation(page: page, isRoot: isRoot)
+            } else {
+                logger.debug("Sheet stack not registered. Delegating sheet navigation to parent.")
+                navigateWithParent(to: page, presentation: presentation, isRoot: isRoot)
+            }
+        case .cover:
+            if isCoverStackRegistered {
+                handleCoverNavigation(page: page, isRoot: isRoot)
+            } else {
+                logger.debug("Cover stack not registered. Delegating cover navigation to parent.")
+                navigateWithParent(to: page, presentation: presentation, isRoot: isRoot)
+            }
+        }
+    }
+    
+    /// Navigates to a specified page using a given presentation method.
+    ///
+    /// This method handles navigation to a new page, managing different presentation styles such as stack navigation,
+    /// sheet presentation, or full-screen cover. It also updates the navigation history accordingly.
+    ///
+    /// - Parameters:
+    ///   - page: The page to navigate to, conforming to `PKSPage`.
+    ///   - presentation: The presentation method to use. Options are `.stack`, `.sheet`, or `.cover`. Defaults to `.stack`.
+    ///   - isRoot: A Boolean value indicating whether the page should be set as the root of the navigation stack. Defaults to `false`.
+    ///   - isNavigatingWithParent: A Boolean value indicating whether the navigation passed from sub manager to parent manager. Defaults to `false`
+    fileprivate func navigate(to page: any PKSPage, presentation: PKSPresentationMethod = .stack, isRoot: Bool = false, isNavigatingWithParent: Bool = false) {
         if !isNavigatingWithParent {
             logger.debug(
                 "Request to navigate to \(page.description) with presentation: \(presentation.rawValue), isRoot: \(isRoot)."
