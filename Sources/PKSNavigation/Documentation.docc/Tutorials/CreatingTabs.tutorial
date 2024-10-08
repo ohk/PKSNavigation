@@ -1,0 +1,114 @@
+@Tutorial(time: 5, projectFiles: "tutorial-chapter-1.zip") {
+    @Intro(title: "Creating a Tab View") {
+        In this tutorial, you'll learn how to create a dynamic and responsive tab view in your SwiftUI application using PKSNavigation. We'll guide you through setting up your project, integrating PKSNavigation, and implementing a functional tab-based navigation system.
+    }
+    
+    @Section(title: "Set Up a New Project and Add PKSNavigation") {
+        @ContentAndMedia {
+            Start by creating a new SwiftUI project and adding PKSNavigation as a dependency to manage your navigation flows seamlessly.
+            
+            @Image(source: "Tutorials-background", alt: "Illustration showing the SwiftUI project setup screen in Xcode.")
+        }
+        @Steps {
+            @Step {
+                **Create a New Project**
+                
+                Open Xcode and select **File > New > Project**. Choose the **App** template under the iOS section and click **Next**. Name your project (e.g., "PKSNavigationDemo") and ensure that **SwiftUI** is selected for the interface. Click **Create** to initialize the project.
+                
+                @Image(source: "tab-view-create-project.png", alt: "Screenshot of Xcode's New Project window with the App template selected.")
+            }
+            
+            @Step {
+                **Add PKSNavigation via Swift Package Manager**
+                
+                Navigate to your project settings by selecting the project file in the Project Navigator. Go to the **Package Dependencies** tab.
+                
+                @Image(source: "tab-view-go-to-package-dependencies.png", alt: "Screenshot of Xcode's Package Dependencies tab in project settings.")
+            }
+            
+            @Step {
+                **Integrate PKSNavigation**
+                
+                Click the **+** button to add a new package dependency. Enter the PKSNavigation repository URL and click **Next**. Select the desired version and complete the integration. Repository URL: `https://github.com/ohk/PKSNavigation.git`
+                
+                @Image(source: "tab-view-add-package.png", alt: "Screenshot of adding PKSNavigation package in Xcode's Swift Package Manager.")
+            }
+            
+            @Step {
+                **Add PKSNavigation to Your Target**
+                
+                Ensure that PKSNavigation is added to your project's target by checking the appropriate box in the package integration dialog. This allows you to use PKSNavigation within your application.
+                
+                @Image(source: "tab-view-add-package-to-target.png", alt: "Screenshot showing PKSNavigation package being added to the project target in Xcode.")
+            }
+        }
+    }
+
+    @Section(title: "Implementing the Tab View") {
+        @ContentAndMedia {
+            With PKSNavigation integrated, proceed to create a tab view that leverages PKSNavigation's capabilities for managing navigation flows.
+        }
+        
+        @Steps {
+            @Step {
+                **Open ContentView.swift**
+                
+                In the Project Navigator, select **ContentView.swift** to begin implementing the tab view.
+                
+                @Code(name: "ContentView.swift", file: tab-view-01-content-view.swift) {
+                    @Image(source: "preview-tab-view-01-content-view.png", alt: "Xcode editor displaying ContentView.swift with initial SwiftUI code.")
+                }
+            }
+            
+            @Step {
+                **Import PKSNavigation**
+                
+                At the top of **ContentView.swift**, import the PKSNavigation framework to access its navigation functionalities.
+                
+                @Code(name: "ContentView.swift", file: tab-view-02-import-package.swift) {
+                    @Image(source: "preview-tab-view-01-content-view.png", alt: "Xcode editor displaying ContentView.swift with initial SwiftUI code.")
+                }
+            }
+            
+            @Step {
+                **Initialize PKSNavigationManager Instances**
+                
+                Create separate instances of `PKSNavigationManager` for each tab to manage their respective navigation flows.
+                
+                @Code(name: "ContentView.swift", file: tab-view-03-init-navigation-managers.swift) {
+                    @Image(source: "preview-tab-view-01-content-view.png", alt: "Xcode editor displaying ContentView.swift with initial SwiftUI code.")
+                }
+            }
+            
+            @Step {
+                **Create the Root View for the Home Tab**
+                
+                Define the root view for the Home tab, which will serve as the starting point for navigation within this tab.
+                
+                @Code(name: "RootView.swift", file: tab-view-04-root-view.swift) {
+                    @Image(source: "preview-tab-view-01-content-view.png", alt: "Xcode editor displaying ContentView.swift with initial SwiftUI code.")
+                }
+            }
+            
+            @Step {
+                **Wrap the Root View with PKSNavigationContainer**
+                
+                Embed the root view within a `PKSNavigationContainer` to enable PKSNavigation's navigation management for the Home tab.
+                
+                @Code(name: "RootView.swift", file: tab-view-05-root-view-navigation-container.swift) {
+                    @Image(source: "preview-tab-view-01-content-view.png", alt: "Xcode editor displaying ContentView.swift with initial SwiftUI code.")
+                }
+            }
+            
+            @Step {
+                **Add TabView to the View Hierarchy**
+                
+                Incorporate a `TabView` into your main view hierarchy, configuring each tab to use its respective `PKSNavigationContainer`. Set appropriate titles and icons for each tab.
+                
+                @Code(name: "ContentView.swift", file: tab-view-06-add-tab-view.swift) {
+                    @Image(source: "preview-tab-view-02-tab-init.png", alt: "Xcode editor displaying ContentView.swift with initial SwiftUI code.")
+                }
+            }
+        }
+    }
+}
