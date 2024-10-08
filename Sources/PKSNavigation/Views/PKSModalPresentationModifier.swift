@@ -50,8 +50,10 @@ import SwiftUI
                 NavigationStack(path: $navigationManager.sheetPath) {
                     page.view
                         .environmentObject(navigationManager)
+                        .pksDismissEnvironment(navigationManager: navigationManager)
                         .navigationDestination(for: PKSView.self) { page in
                             page.view
+                                .pksDismissEnvironment(navigationManager: navigationManager)
                                 .environmentObject(navigationManager)
                         }
                 }
@@ -61,8 +63,10 @@ import SwiftUI
                 NavigationStack(path: $navigationManager.coverPath) {
                     page.view
                         .environmentObject(navigationManager)
+                        .pksDismissEnvironment(navigationManager: navigationManager)
                         .navigationDestination(for: PKSView.self) { page in
                             page.view
+                                .pksDismissEnvironment(navigationManager: navigationManager)
                                 .environmentObject(navigationManager)
                         }
                 }
