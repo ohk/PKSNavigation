@@ -1,0 +1,16 @@
+@Tutorials(name: "Meet PKSNavigation") {
+    @Intro(title: "Meet PKSNavigation") {
+        **Meet PKSNavigation** is your comprehensive guide to mastering PKSNavigation, the powerful and flexible navigation framework for SwiftUI applications. This tutorial explores every use case, demonstrating how to manage complex navigation flows with stack-based, sheet, and full-screen cover presentations effortlessly. By following along, you'll gain the skills to implement robust and customizable navigation solutions that enhance the user experience in your SwiftUI projects.
+        
+        @Image(source: "Tutorials-background", alt: "The image displays a set of rectangular shapes, arranged symmetrically. One larger rectangle is positioned centrally and above a row of four smaller rectangles. The background is black, and the rectangles are filled with a cyan color and have rounded edges, giving the layout a balanced and minimalistic look.")
+    }
+    
+    @Chapter(name: "Create Tab Structure with PKSNavigation") {
+        How to create tab structure
+        
+        @Image(source: "Tutorials-tab-view-background", alt: "This image has a similar symmetrical arrangement with cyan rectangles on a black background. The top central rectangle has a small rectangular section divided into two parts at the bottom, resembling a tab or division within the rectangle. The rectangles' layout forms an inverted 'T' shape, with two rectangles on the bottom corners and one on the top.")
+        
+        @TutorialReference(tutorial: "doc:CreatingTabs")
+    }
+ 
+}
