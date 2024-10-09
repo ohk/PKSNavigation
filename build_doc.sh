@@ -8,6 +8,6 @@ xcodebuild docbuild -scheme "${PACKAGE_TARGET}" \
   -destination 'generic/platform=iOS';
 
 $(xcrun --find docc) process-archive \
-  transform-for-static-hosting /tmp/docbuild/Build/Products/Debug-iphoneos/${PACKAGE_TARGET}.doccarchive \
-  --hosting-base-path "/PKSNavigation/documentation" \
+ transform-for-static-hosting /tmp/docbuild/Build/Products/Debug-iphoneos/${PACKAGE_TARGET}.doccarchive \
+  --hosting-base-path "/PKSNavigation" \
   --output-path docs;
