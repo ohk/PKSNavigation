@@ -9,5 +9,5 @@ xcodebuild docbuild -scheme "${PACKAGE_TARGET}" \
 
 $(xcrun --find docc) process-archive \
  transform-for-static-hosting /tmp/docbuild/Build/Products/Debug-iphoneos/${PACKAGE_TARGET}.doccarchive \
-  --hosting-base-path "/PKSNavigation" \
+  --hosting-base-path "https://ohk.github.io/PKSNavigation" \
   --output-path docs;
