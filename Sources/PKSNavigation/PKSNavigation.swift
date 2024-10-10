@@ -118,7 +118,7 @@ open class PKSNavigationManager: ObservableObject {
     ///   - page: The page to navigate to, conforming to `PKSPage`.
     ///   - presentation: The presentation method to use. Options are `.stack`, `.sheet`, or `.cover`. Defaults to `.stack`.
     ///   - isRoot: A Boolean value indicating whether the page should be set as the root of the navigation stack. Defaults to `false`.
-    func navigate(to page: any PKSPage, presentation: PKSPresentationMethod = .stack, isRoot: Bool = false) {
+    public func navigate(to page: any PKSPage, presentation: PKSPresentationMethod = .stack, isRoot: Bool = false) {
         navigate(to: page, presentation: presentation, isRoot: isRoot, isNavigatingWithParent: false)
     }
     
