@@ -18,16 +18,16 @@ import SwiftUI
 /// - Note: This modifier requires the `PKSNavigationManager` to be provided and properly configured.
 /// - Author: Ömer Hamid Kamışlı
 @MainActor public struct PKSModalPresentationModifier: ViewModifier {
-    
+
     // MARK: - Properties
-    
+
     /// The navigation manager that handles modal navigation actions and state.
     ///
     /// Observes the `PKSNavigationManager` to respond to changes in modal presentations.
     @ObservedObject var navigationManager: PKSNavigationManager
 
     // MARK: - Initialization
-    
+
     /// Initializes a new instance of `PKSModalPresentationModifier` with a given navigation manager.
     ///
     /// - Parameter navigationManager: An instance of `PKSNavigationManager` responsible for managing modal navigation.
@@ -36,7 +36,7 @@ import SwiftUI
     }
 
     // MARK: - ViewModifier
-    
+
     /// Defines the content and behavior of the modifier.
     ///
     /// Sets up sheet and full-screen cover presentations by observing the `rootSheet` and `rootCover` properties
@@ -46,7 +46,10 @@ import SwiftUI
     /// - Returns: A modified view with sheet and full-screen cover presentations managed by the navigation manager.
     public func body(content: Content) -> some View {
         content
-            .sheet(item: $navigationManager.rootSheet, onDismiss: navigationManager.onSheetModalDismissed) { page in
+            .sheet(
+                item: $navigationManager.rootSheet,
+                onDismiss: navigationManager.onSheetModalDismissed
+            ) { page in
                 NavigationStack(path: $navigationManager.sheetPath) {
                     page.view
                         .environmentObject(navigationManager)
@@ -59,7 +62,10 @@ import SwiftUI
                 }
                 .presentationDragIndicator(.visible)
             }
-            .fullScreenCover(item: $navigationManager.rootCover, onDismiss: navigationManager.onCoverModalDismissed) { page in
+            .fullScreenCover(
+                item: $navigationManager.rootCover,
+                onDismiss: navigationManager.onCoverModalDismissed
+            ) { page in
                 NavigationStack(path: $navigationManager.coverPath) {
                     page.view
                         .environmentObject(navigationManager)
@@ -86,12 +92,13 @@ import SwiftUI
 ///
 /// - Parameter navigationManager: An instance of `PKSNavigationManager` responsible for managing modal navigation.
 /// - Returns: A view modified with `PKSModalPresentationModifier`.
-public extension View {
+extension View {
     /// Applies the `PKSModalPresentationModifier` to the view.
     ///
     /// - Parameter navigationManager: An instance of `PKSNavigationManager` responsible for managing modal navigation.
     /// - Returns: A view modified with `PKSModalPresentationModifier`.
-    func modalNavigationStackManager(
+    @MainActor
+    public func modalNavigationStackManager(
         navigationManager: PKSNavigationManager
     ) -> some View {
         self.modifier(PKSModalPresentationModifier(navigationManager: navigationManager))
