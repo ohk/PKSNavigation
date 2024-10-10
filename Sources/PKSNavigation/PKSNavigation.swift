@@ -188,28 +188,20 @@ open class PKSNavigationManager: ObservableObject {
             logger.debug("Handling navigateBack for presentation: \(lastHistoryItem.presentation.rawValue).")
             switch lastHistoryItem.presentation {
             case .stack:
-                if !rootPath.isEmpty {
-                    rootPath.removeLast()
-                    logger.debug("Removed last item from rootPath. New stack depth: \(self.rootPath.count).")
-                } else {
-                    logger.warning("rootPath is empty.")
-                }
+                rootPath.removeLastIfAvailable()
+                logger.debug("Removed last item from rootPath. New stack depth: \(self.rootPath.count).")
             case .sheet:
-                if !sheetPath.isEmpty {
-                    sheetPath.removeLast()
-                    logger.debug("Removed last item from sheetPath. New sheet depth: \(self.sheetPath.count).")
-                } else {
-                    logger.debug("Clearing rootSheet.")
+                sheetPath.removeLastIfAvailable()
+                if sheetPath.isEmpty {
                     rootSheet = nil
                 }
+                logger.debug("Removed last item from sheetPath. New sheet depth: \(self.sheetPath.count).")
             case .cover:
-                if !coverPath.isEmpty {
-                    coverPath.removeLast()
-                    logger.debug("Removed last item from coverPath. New cover depth: \(self.coverPath.count).")
-                } else {
-                    logger.debug("Clearing rootCover.")
+                coverPath.removeLastIfAvailable()
+                if coverPath.isEmpty {
                     rootCover = nil
                 }
+                logger.debug("Removed last item from coverPath. New cover depth: \(self.coverPath.count).")
             }
             updateActivePresentation()
             logger.debug(
