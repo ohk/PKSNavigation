@@ -1,6 +1,18 @@
-- ignore:
-    - Sources/PKSNavigation/Views/*
-    - Sources/PKSNavigation/EnvironmentValues/*
-    - Sources/PKSNavigation/Models/*
-    - Sources/PKSNavigation/Protocols/*
-    - Sources/Tests/*
+ignore:
+  - Sources/PKSNavigation/Views/*
+  - Sources/PKSNavigation/EnvironmentValues/*
+  - Sources/PKSNavigation/Models/*
+  - Sources/PKSNavigation/Protocols/*
+  - Sources/Tests/*
+coverage:
+  status:
+    project:
+      default: # default is the status check's name, not default settings
+        target: auto
+        threshold: 5
+        base: auto
+        flags:
+          - unit
+  range: 60..80
+  round: down
+  precision: 2
