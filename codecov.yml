@@ -1,0 +1,6 @@
+- ignore:
+    - Sources/PKSNavigation/Views/*
+    - Sources/PKSNavigation/EnvironmentValues/*
+    - Sources/PKSNavigation/Models/*
+    - Sources/PKSNavigation/Protocols/*
+    - Sources/Tests/*
