@@ -188,28 +188,20 @@ open class PKSNavigationManager: ObservableObject {
             logger.debug("Handling navigateBack for presentation: \(lastHistoryItem.presentation.rawValue).")
             switch lastHistoryItem.presentation {
             case .stack:
-                if !rootPath.isEmpty {
-                    rootPath.removeLast()
-                    logger.debug("Removed last item from rootPath. New stack depth: \(self.rootPath.count).")
-                } else {
-                    logger.warning("rootPath is empty.")
-                }
+                rootPath.removeLastIfAvailable()
+                logger.debug("Removed last item from rootPath. New stack depth: \(self.rootPath.count).")
             case .sheet:
-                if !sheetPath.isEmpty {
-                    sheetPath.removeLast()
-                    logger.debug("Removed last item from sheetPath. New sheet depth: \(self.sheetPath.count).")
-                } else {
-                    logger.debug("Clearing rootSheet.")
+                sheetPath.removeLastIfAvailable()
+                if sheetPath.isEmpty {
                     rootSheet = nil
                 }
+                logger.debug("Removed last item from sheetPath. New sheet depth: \(self.sheetPath.count).")
             case .cover:
-                if !coverPath.isEmpty {
-                    coverPath.removeLast()
-                    logger.debug("Removed last item from coverPath. New cover depth: \(self.coverPath.count).")
-                } else {
-                    logger.debug("Clearing rootCover.")
+                coverPath.removeLastIfAvailable()
+                if coverPath.isEmpty {
                     rootCover = nil
                 }
+                logger.debug("Removed last item from coverPath. New cover depth: \(self.coverPath.count).")
             }
             updateActivePresentation()
             logger.debug(
@@ -237,6 +229,8 @@ open class PKSNavigationManager: ObservableObject {
         sheetPath.clear()
         logger.debug("sheetPath cleared. Popped \(popCount) history items.")
 
+        rootSheet = nil
+        
         activePresentation = .stack
         logger.debug("Active presentation set to .stack after modal dismissal.")
     }
@@ -259,7 +253,9 @@ open class PKSNavigationManager: ObservableObject {
 
         coverPath.clear()
         logger.debug("coverPath cleared. Popped \(popCount) history items.")
-    
+        
+        rootCover = nil
+        
         activePresentation = .stack
         logger.debug("Active presentation set to .stack after modal dismissal.")
     }
@@ -290,6 +286,7 @@ open class PKSNavigationManager: ObservableObject {
                 "Clearing history item: \(String(describing: historyItem.page?.description)).")
             if historyItem.isParent {
                 logger.debug("History item belongs to parent. Delegating navigateBack to parent.")
+                history.pop()
                 parent?.navigateBack()
             } else {
                 navigateBack()
