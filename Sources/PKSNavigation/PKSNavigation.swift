@@ -237,6 +237,8 @@ open class PKSNavigationManager: ObservableObject {
         sheetPath.clear()
         logger.debug("sheetPath cleared. Popped \(popCount) history items.")
 
+        rootSheet = nil
+        
         activePresentation = .stack
         logger.debug("Active presentation set to .stack after modal dismissal.")
     }
@@ -259,7 +261,9 @@ open class PKSNavigationManager: ObservableObject {
 
         coverPath.clear()
         logger.debug("coverPath cleared. Popped \(popCount) history items.")
-    
+        
+        rootCover = nil
+        
         activePresentation = .stack
         logger.debug("Active presentation set to .stack after modal dismissal.")
     }
