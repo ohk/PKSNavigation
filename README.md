@@ -7,6 +7,8 @@
 [![Contributors](https://img.shields.io/github/contributors/ohk/PKSNavigation)](https://github.com/ohk/PKSNavigation/graphs/contributors)
 [![Version](https://img.shields.io/github/v/release/ohk/PKSNavigation)](https://github.com/ohk/PKSNavigation/releases)
 
+[![codecov](https://codecov.io/gh/ohk/PKSNavigation/graph/badge.svg?token=VBCJMHMLG4)](https://codecov.io/gh/ohk/PKSNavigation) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ohk_PKSNavigation&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ohk_PKSNavigation) [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=ohk_PKSNavigation&metric=bugs)](https://sonarcloud.io/summary/new_code?id=ohk_PKSNavigation) [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=ohk_PKSNavigation&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=ohk_PKSNavigation) [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=ohk_PKSNavigation&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=ohk_PKSNavigation) [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=ohk_PKSNavigation&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=ohk_PKSNavigation)
+
 **PKSNavigation** is a simple yet powerful navigation framework designed for SwiftUI applications. It helps you manage complex navigation flows with ease, supporting stack-based navigation, sheet presentations, and full-screen covers. Whether you're building a small app or a large-scale project, PKSNavigation streamlines your navigation logic, making your code cleaner and more maintainable.
 
 ## 🚨 Important Notice
