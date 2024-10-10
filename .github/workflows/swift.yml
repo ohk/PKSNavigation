@@ -18,21 +18,23 @@ jobs:
         with:
           swift-version: "5.9"
 
-      - name: Build
-        run: swift build -v
+      - name: Install xcresultparser
+        run: |
+          brew tap a7ex/homebrew-formulae
+          brew install xcresultparser
 
-      - name: Run tests with coverage
-        run: swift test --enable-code-coverage
+      - name: Build
+        run: xcodebuild test -scheme PKSNavigation -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.5' -derivedDataPath /tmp/build -enableCodeCoverage YES
 
       - name: Generate coverage report
         run: |
-          xcrun llvm-cov export -format="lcov" .build/debug/PKSNavigationTests.xctest/Contents/MacOS/PKSNavigationTests -instr-profile .build/debug/codecov/default.profdata > coverage.lcov
+          xcresultparser -o cobertura /tmp/build/Logs/Test/Test-*.xcresult > cobertura.xml
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./coverage.lcov
+          file: ./cobertura.xml
           flags: unittests
           name: codecov-umbrella
           fail_ci_if_error: true
