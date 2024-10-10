@@ -294,6 +294,7 @@ open class PKSNavigationManager: ObservableObject {
                 "Clearing history item: \(String(describing: historyItem.page?.description)).")
             if historyItem.isParent {
                 logger.debug("History item belongs to parent. Delegating navigateBack to parent.")
+                history.pop()
                 parent?.navigateBack()
             } else {
                 navigateBack()
