@@ -24,11 +24,14 @@ jobs:
           brew install xcresultparser
 
       - name: Build
-        run: xcodebuild test -scheme PKSNavigation -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.5' -derivedDataPath /tmp/build -enableCodeCoverage YES
+        run: |
+          xcodebuild test -scheme PKSNavigation -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.5' -derivedDataPath /tmp/build -enableCodeCoverage YES
+          xcodebuild test -scheme PKSNavigation -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.5' -derivedDataPath /tmp/build -enableCodeCoverage YES
 
       - name: Generate coverage report
         run: |
-          xcresultparser -o cobertura /tmp/build/Logs/Test/Test-*.xcresult > cobertura.xml
+          xcrun xcresulttool merge /tmp/build/Logs/Test/Test-*.xcresult --output-path=Result_merged.xcresult
+          xcresultparser -o cobertura Result_merged.xcresult > cobertura.xml
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
