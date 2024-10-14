@@ -5,12 +5,21 @@
         @Image(source: "Tutorials-background", alt: "The image displays a set of rectangular shapes, arranged symmetrically. One larger rectangle is positioned centrally and above a row of four smaller rectangles. The background is black, and the rectangles are filled with a cyan color and have rounded edges, giving the layout a balanced and minimalistic look.")
     }
     
-    @Chapter(name: "Create Tab Structure with PKSNavigation") {
-        How to create tab structure
+    @Volume(name: "Getting Started") {
+        **Getting Started** with PKSNavigation will guide you through the initial setup and fundamental concepts required to integrate PKSNavigation into your SwiftUI projects. This volume covers installation steps, basic configuration, and introductory examples to help you build a solid foundation for more advanced navigation patterns.
         
-        @Image(source: "Tutorials-tab-view-background", alt: "This image has a similar symmetrical arrangement with cyan rectangles on a black background. The top central rectangle has a small rectangular section divided into two parts at the bottom, resembling a tab or division within the rectangle. The rectangles' layout forms an inverted 'T' shape, with two rectangles on the bottom corners and one on the top.")
+        @Image(source: "section-header-getting-started", alt: "A sleek header image featuring the PKSNavigation logo with abstract cyan geometric shapes in the background, representing the framework's modern and flexible design.")
         
-        @TutorialReference(tutorial: "doc:CreatingTabs")
+        @Chapter(name: "Installation and Configuration") {
+            Integrating PKSNavigation into your SwiftUI application is straightforward. This chapter walks you through the installation process using Swift Package Manager, configuring essential settings, and setting up the initial navigation structure. By the end of this chapter, you'll have PKSNavigation up and running, ready to handle your app's navigation needs.
+            
+            @Image(source: "Tutorials-tab-view-background", alt: "This image has a similar symmetrical arrangement with cyan rectangles on a black background. The top central rectangle has a small rectangular section divided into two parts at the bottom, resembling a tab or division within the rectangle. The rectangles' layout forms an inverted 'T' shape, with two rectangles on the bottom corners and one on the top.")
+            
+            @TutorialReference(tutorial: "doc:CreatingTabs")
+            
+            @TutorialReference(tutorial: "doc:LeveragingPKSNavigation")
+        }
+        
     }
- 
+
 }
