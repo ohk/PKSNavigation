@@ -38,6 +38,7 @@
 ///
 import SwiftUI
 
+@available(iOS 16.0, *)
 public protocol PKSPage: Hashable, Identifiable {
 
     /// The type of view representing the body of this page.
@@ -52,6 +53,7 @@ public protocol PKSPage: Hashable, Identifiable {
     var description: String { get }
 }
 
+@available(iOS 16.0, *)
 extension PKSPage {
     /// A unique identifier for the page, derived from the hash value.
     public var id: Int {

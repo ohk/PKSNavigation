@@ -20,6 +20,7 @@ import SwiftUI
 ///     path.removeLastIfAvailable() // Removes "FirstPage" if it exists
 ///     path.clear() // Clears the entire path
 ///
+@available(iOS 16.0, *)
 extension NavigationPath {
 
     /// Removes the last element of the path if it exists.

@@ -17,6 +17,7 @@ import SwiftUI
 ///
 /// - Note: This modifier requires the `PKSNavigationManager` to be provided and properly configured.
 /// - Author: Ömer Hamid Kamışlı
+@available(iOS 16.0, *)
 @MainActor public struct PKSModalPresentationModifier: ViewModifier {
 
     // MARK: - Properties
@@ -92,6 +93,7 @@ import SwiftUI
 ///
 /// - Parameter navigationManager: An instance of `PKSNavigationManager` responsible for managing modal navigation.
 /// - Returns: A view modified with `PKSModalPresentationModifier`.
+@available(iOS 16.0, *)
 extension View {
     /// Applies the `PKSModalPresentationModifier` to the view.
     ///

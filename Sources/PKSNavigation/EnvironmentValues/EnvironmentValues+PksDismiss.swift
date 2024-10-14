@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+@available(iOS 16.0, *)
 public extension EnvironmentValues {
     /// A closure that can be called to dismiss the current view.
     ///

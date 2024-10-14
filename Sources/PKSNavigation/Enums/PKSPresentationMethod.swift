@@ -22,6 +22,8 @@ import Foundation
 /// - cover: The page is presented in fullscreen.
 ///
 /// Each case is associated with a string value for encoding and decoding purposes.
+
+@available(iOS 16.0, *)
 public enum PKSPresentationMethod: String, Codable, Hashable {
     /// The page is presented in a stack.
     case stack = "STACK"
