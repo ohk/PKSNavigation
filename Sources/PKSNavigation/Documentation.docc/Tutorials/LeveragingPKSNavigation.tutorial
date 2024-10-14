@@ -1,0 +1,254 @@
+
+@Tutorial(time: 25, projectFiles: "tutorial-chapter-2.zip") {
+    @Intro(title: "Seamless Navigation in iOS Tabs: Leveraging PKSNavigation") {
+        In this tutorial, you will learn step by step how to navigate in different ways within a tab-based application. You will learn how to create navigation pages systematically and how to display pages using stack navigation. By the end of this tutorial, you'll have a fully navigable tab-based application that enhances user experience through intuitive navigation flows.
+    }
+    
+    @Section(title: "Building the Articles Feature") {
+        @ContentAndMedia {
+            In this section, we will develop an application where users can view a list of articles and navigate to their detailed views. To achieve this, we first need to define the necessary data models and views that will represent our articles.
+        }
+        
+        @Steps {
+            @Step {
+                **Define the Article Model**
+                
+                To manage our articles effectively, we'll start by creating an `Article` model. This model will encapsulate the properties of an article, such as its title, author, content, and publication date.
+                
+                @Code(name: "ArticleModel.swift", file: "chapter-2-01-article-model.swift")
+            }
+            
+            @Step {
+                **Create Mock Data for Articles**
+                
+                With the `Article` model in place, we'll create some mock data to simulate a list of articles. This will help us develop and test the UI components without needing a backend service.
+                
+                @Code(name: "ArticleModel.swift", file: "chapter-2-02-article-mock.swift")
+            }
+            
+            @Step {
+                **Design the Article Row View**
+                
+                Next, we'll create a reusable row view that will display individual articles in a list. This view will show the article's title, author, and publication date.
+                
+                @Code(name: "ArticleRowView.swift", file: "chapter-2-03-article-row.swift") {
+                    @Image(source: "preview-article-row.png", alt: "iOS Simulator preview of ArticleRowView displaying an article's title, author, and date.")
+                }
+            }
+            
+            @Step {
+                **Develop the Article Detail View**
+                
+                Finally, we'll create a detail view that presents the full content of an article. This view will be navigated to when a user selects an article from the list.
+                
+                @Code(name: "ArticleDetailView.swift", file: "chapter-2-04-article-detail.swift") {
+                    @Image(source: "preview-article-detail.png", alt: "iOS Simulator preview of ArticleDetailView displaying the full content of an article.")
+                }
+            }
+        }
+    }
+
+    @Section(title: "Setting Up PKS Navigation") {
+        @ContentAndMedia {
+            In this section, we'll set up the navigation pages required for our application using PKSNavigation. This involves defining an enumeration for our navigation routes and ensuring they conform to the necessary protocols for PKSNavigation to manage them effectively.
+        }
+        
+        @Steps {
+            @Step {
+                **Create the Navigation Enum**
+                
+                We'll start by creating an enumeration that represents the different navigation pages in our application. This enum will conform to the `PKSPage` protocol, which is essential for PKSNavigation to handle navigation flows.
+                
+                @Code(name: "NavigationPages.swift", file: "chapter-2-05-create-enum.swift")
+            }
+            
+            @Step {
+                **Extend the Navigation Enum with Pages**
+                
+                Next, we'll extend the `NavigationPages` enum to include the associated data required for each navigation case. This ensures that each page can receive the necessary information when navigated to.
+                
+                @Code(name: "NavigationPages.swift", file: "chapter-2-06-enum-add-pages.swift")
+            }
+            
+            @Step {
+                **Ensure Protocol Conformance**
+                
+                Finally, we'll ensure that our `NavigationPages` enum fully conforms to the `PKSPage` protocol by implementing any required methods or properties. This step guarantees that PKSNavigation can correctly interpret and manage our navigation routes.
+                
+                @Code(name: "NavigationPages.swift", file: "chapter-2-07-enum-confirm-protocol.swift")
+            }
+        }
+    }
+
+    @Section(title: "Implementing Homepage Navigation") {
+        @ContentAndMedia {
+            In this section, we'll set up the homepage of our application, which will display the list of articles. We'll integrate PKSNavigation to manage navigation from the homepage to the article detail views seamlessly.
+        }
+        
+        @Steps {
+            @Step {
+                **Create the Homepage View**
+                
+                We'll begin by creating the `HomepageView`, which will display a list of articles using the `ArticleRowView` we previously created. This view will allow users to select an article to view its details.
+                
+                @Code(name: "Homepage.swift", file: "chapter-2-08-homepage.swift") {
+                    @Image(source: "preview-article-list-homepage.png", alt: "iOS Simulator preview of HomepageView displaying a list of articles.")
+                }
+            }
+            
+            @Step {
+                **Integrate PKSNavigation Manager**
+                
+                Next, we'll integrate PKSNavigation into the `HomepageView` to handle navigation. This involves initializing a `PKSNavigationManager` and configuring it with our `NavigationPages` enum.
+                
+                @Code(name: "Homepage.swift", file: "chapter-2-09-homepage-navigation-manager.swift") {
+                    @Image(source: "preview-article-list-homepage.png", alt: "iOS Simulator displaying HomepageView with PKSNavigationManager integrated.")
+                }
+            }
+            
+            @Step {
+                **Update Article Rows for PKSNavigation**
+                
+                We'll modify the article rows to use PKSNavigation for navigation instead of `NavigationLink`. This allows us to leverage PKSNavigation's advanced navigation capabilities.
+                
+                @Code(name: "Homepage.swift", file: "chapter-2-10-homepage-navigation.swift") {
+                    @Image(source: "preview-homepage-navigation.png", alt: "iOS Simulator displaying HomepageView with navigation using PKSNavigation.")
+                }
+            }
+        }
+    }
+
+    @Section(title: "Configuring Detail Page Navigation") {
+        @ContentAndMedia {
+            In this final section, we'll set up the detail view for each article. We'll ensure that navigation back to the homepage is handled smoothly using PKSNavigation, providing users with an intuitive way to return to the article list.
+        }
+        
+        @Steps {
+            @Step {
+                **Initialize Article Detail Base**
+                
+                We'll start by setting up the base structure of the `ArticleDetailView`, ensuring it can display the full content of an article.
+                
+                @Code(name: "ArticleDetail.swift", file: "chapter-2-11-article-detail-base.swift") {
+                    @Image(source: "preview-article-detail.png", alt: "iOS Simulator preview of ArticleDetailView with article content.")
+                }
+            }
+            
+            @Step {
+                **Integrate PKSNavigation into Detail View**
+                
+                We'll integrate PKSNavigation into the `ArticleDetailView` to manage navigation actions such as dismissing the view.
+                
+                @Code(name: "ArticleDetail.swift", file: "chapter-2-12-article-detail-navigation.swift") {
+                    @Image(source: "preview-article-detail.png", alt: "iOS Simulator displaying ArticleDetailView with PKSNavigation integration.")
+                }
+            }
+            
+            @Step {
+                **Add Custom Back Button with `PKSDismissKey`**
+                
+                To enhance navigation, we'll add a custom back button that utilizes `PKSDismissKey` for dismissing the detail view. This ensures that the navigation flow remains consistent and managed by PKSNavigation.
+                
+                @Code(name: "ArticleDetail.swift", file: "chapter-2-13-article-detail-navigation-back-button.swift") {
+                    @Image(source: "preview-article-detail-back.png", alt: "iOS Simulator displaying ArticleDetailView with a custom back button using PKSDismissKey.")
+                }
+            }
+        }
+    }
+
+    @Section(title: "Enhancing Detail Page with Sheet Navigation") {
+        @ContentAndMedia {
+            In this section, we'll enhance the detail view by adding sheet-based navigation for additional information, such as author details. This approach provides a more interactive and modular user experience.
+        }
+        
+        @Steps {
+            @Step {
+                **Create the Author Detail View**
+                
+                We'll start by creating the `AuthorDetailView`, which will display detailed information about the article's author. This view will be presented as a sheet from the `ArticleDetailView`.
+                
+                @Code(name: "AuthorDetail.swift", file: "chapter-2-14-author-detail.swift") {
+                    @Image(source: "preview-author-detail.png", alt: "iOS Simulator preview of AuthorDetailView displaying author's information.")
+                }
+            }
+            
+            @Step {
+                **Configure Author Detail for Sheet Presentation**
+                
+                Next, we'll prepare the `AuthorDetailView` to be presented as a sheet. This involves setting up the sheet size based on content size.
+                
+                @Code(name: "AuthorDetail.swift", file: "chapter-2-15-author-detail-sheet-preparation.swift") {
+                    @Image(source: "preview-author-detail-sheet.png", alt: "iOS Simulator preview of AuthorDetailView configured for sheet presentation.")
+                }
+            }
+            
+            @Step {
+                **Establish a New Navigation Manager for Author Details**
+                
+                We'll create a new `PKSNavigationManager` specifically for handling navigation flows within the `AuthorDetailView`. This is necessary because the author detail can initiate new navigation flows, such as navigating to other authors or related articles.
+                
+                @Code(name: "AuthorDetail.swift", file: "chapter-2-16-author-detail-navigation-new-navigation-manager.swift") {
+                    @Image(source: "preview-author-detail-sheet.png", alt: "iOS Simulator displaying AuthorDetailView with a new PKSNavigationManager.")
+                }
+            }
+            
+            @Step {
+                **Set the Parent Navigation Manager**
+                
+                To ensure coherent navigation flows, we'll set the parent navigation manager for the new `PKSNavigationManager`. This allows PKSNavigation to make informed decisions about navigation based on the app's overall requirements, enhancing stability and consistency.
+                
+                @Code(name: "AuthorDetail.swift", file: "chapter-2-17-author-detail-navigation-set-parent.swift") {
+                    @Image(source: "preview-author-detail-sheet.png", alt: "iOS Simulator displaying AuthorDetailView with parent PKSNavigationManager set.")
+                }
+            }
+            
+            @Step {
+                **Create New Navigable Modals**
+                
+                When creating a navigation manager for the author detail flow, we'll set up new modals. This allows the new navigation manager to handle sheet or cover-style navigations independently, ensuring a modular and scalable navigation structure.
+                
+                @Code(name: "AuthorDetail.swift", file: "chapter-2-18-author-detail-navigation-create-modal-stacks.swift") {
+                    @Image(source: "preview-author-detail-sheet.png", alt: "iOS Simulator displaying AuthorDetailView with navigable modals.")
+                }
+            }
+            
+            @Step {
+                **Add Tap Gesture to Article Row for Author Navigation**
+                
+                We'll add a tap gesture recognizer to the author's articles. When the article row is tapped, the `AuthorDetailView` will be presented as a full screen cover.
+                
+                @Code(name: "AuthorDetail.swift", file: "chapter-2-19-author-detail-navigation-cover-navigation.swift") {
+                    @Image(source: "preview-author-detail-sheet.png", alt: "iOS Simulator displaying AuthorDetailView triggered by tapping the author name.")
+                }
+            }
+            
+            @Step {
+                **Update Navigation Pages with Author Detail**
+                
+                We'll add the `AuthorDetail` page to the `NavigationPages` enum. This allows us to navigate to the `AuthorDetailView` using the updated navigation routes managed by PKSNavigation.
+                
+                @Code(name: "NavigationPages.swift", file: "chapter-2-20-enum-add-new-page.swift")
+            }
+            
+            @Step {
+                **Enhance Article Detail for Author Navigation**
+                
+                We'll begin modifying the `ArticleDetailView` to prepare it for navigating to the `AuthorDetailView`. 
+                
+                @Code(name: "ArticleDetail.swift", file: "chapter-2-21-article-detail-author-navigation-preparation.swift") {
+                    @Image(source: "preview-article-detail-back.png", alt: "iOS Simulator displaying ArticleDetailView prepared for author navigation.")
+                }
+            }
+            
+            @Step {
+                **Implement Navigation Flow from Author Name**
+                
+                Finally, we'll make the author name clickable. When clicked, it will present the `AuthorDetailView` as a sheet using PKSNavigation, allowing users to seamlessly access author information.
+                
+                @Code(name: "ArticleDetail.swift", file: "chapter-2-22-article-detail-to-author-detail-navigation.swift") {
+                    @Image(source: "preview-article-detail-author-name-navigationable.png", alt: "iOS Simulator displaying ArticleDetailView with a clickable author name navigating to AuthorDetailView.")
+                }
+            }
+        }
+    }
+}
