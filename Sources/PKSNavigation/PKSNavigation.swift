@@ -19,6 +19,7 @@ import SwiftUI
 /// - Note: This class is `open` and can be subclassed to extend its functionality.
 ///
 /// - Author: Omer Hamid Kamisli
+@available(iOS 16.0, *)
 open class PKSNavigationManager: ObservableObject {
     
     // MARK: - Published Properties

@@ -13,6 +13,7 @@ import SwiftUI
 ///
 /// The `PKSDismissKey` conforms to `EnvironmentKey` and provides a default implementation
 /// for the `pksDismiss` closure, which does nothing when called.
+@available(iOS 16.0, *)
 public struct PKSDismissKey: EnvironmentKey {
     /// The default value for the `pksDismiss` closure.
     ///

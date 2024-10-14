@@ -15,7 +15,8 @@ import Foundation
 ///
 /// - Note: This class is `final` and cannot be subclassed.
 ///
-/// - Author: [Your Name]
+/// - Author: Omer Hamid Kamisli
+
 final class PKSStack<T> {
 
     // MARK: - Properties

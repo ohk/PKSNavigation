@@ -18,6 +18,7 @@ import SwiftUI
 /// navigation using the PKSNavigation framework.
 ///
 /// - Author: Omer Hamid Kamisli
+@available(iOS 16.0, *)
 public struct PKSNavigationContainer<Root: View>: View {
     
     // MARK: - Properties

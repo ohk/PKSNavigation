@@ -17,6 +17,7 @@ import SwiftUI
 /// - Note: This modifier requires a `PKSNavigationManager` to be passed during initialization.
 ///
 /// - Author: Omer Hamid Kamisli
+@available(iOS 16.0, *)
 struct PKSDismissModifier: ViewModifier {
     
     // MARK: - Properties
@@ -39,6 +40,7 @@ struct PKSDismissModifier: ViewModifier {
     }
 }
 
+@available(iOS 16.0, *)
 public extension View {
     /// Injects the `pksDismiss` closure into the environment for the view hierarchy.
     ///
