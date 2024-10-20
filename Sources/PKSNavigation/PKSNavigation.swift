@@ -201,11 +201,13 @@ open class PKSNavigationManager: ObservableObject {
                 }
                 
             case .cover:
-                coverPath.removeLastIfAvailable()
                 if coverPath.isEmpty {
                     rootCover = nil
+                    logger.debug("Root cover removed.")
+                } else {
+                    coverPath.removeLastIfAvailable()
+                    logger.debug("Removed last item from coverPath. New cover depth: \(self.coverPath.count).")
                 }
-                logger.debug("Removed last item from coverPath. New cover depth: \(self.coverPath.count).")
             }
             updateActivePresentation()
             logger.debug(
