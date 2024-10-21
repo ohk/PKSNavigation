@@ -192,17 +192,22 @@ open class PKSNavigationManager: ObservableObject {
                 rootPath.removeLastIfAvailable()
                 logger.debug("Removed last item from rootPath. New stack depth: \(self.rootPath.count).")
             case .sheet:
-                sheetPath.removeLastIfAvailable()
-                if sheetPath.isEmpty {
+                if sheetPath.isEmpty { 
                     rootSheet = nil
+                    logger.debug("Root sheet removed.")
+                } else {
+                    sheetPath.removeLastIfAvailable()
+                    logger.debug("Removed last item from sheetPath. New sheet depth: \(self.sheetPath.count).")
                 }
-                logger.debug("Removed last item from sheetPath. New sheet depth: \(self.sheetPath.count).")
+                
             case .cover:
-                coverPath.removeLastIfAvailable()
                 if coverPath.isEmpty {
                     rootCover = nil
+                    logger.debug("Root cover removed.")
+                } else {
+                    coverPath.removeLastIfAvailable()
+                    logger.debug("Removed last item from coverPath. New cover depth: \(self.coverPath.count).")
                 }
-                logger.debug("Removed last item from coverPath. New cover depth: \(self.coverPath.count).")
             }
             updateActivePresentation()
             logger.debug(

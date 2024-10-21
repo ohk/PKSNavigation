@@ -24,6 +24,12 @@
 - 📝 **Comprehensive Logging** for debugging
 - 🧩 **Modular Architecture** for easy integration and customization
 
+## Demo App
+
+A demo app is available in the [PKSNavigationDemo](https://github.com/ohk/PKSNavigationDemo) repository. Please check it out for more examples and usage scenarios. 
+
+> AppleStoreDemo is a mock Apple Store application designed to demonstrate the integration and capabilities of the PKSNavigation framework
+
 ## Installation
 
 ### Swift Package Manager
