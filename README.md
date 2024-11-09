@@ -9,6 +9,9 @@
 
 [![codecov](https://codecov.io/gh/ohk/PKSNavigation/graph/badge.svg?token=VBCJMHMLG4)](https://codecov.io/gh/POIKUS-LLC/PKSNavigation) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ohk_PKSNavigation&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ohk_PKSNavigation) [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=ohk_PKSNavigation&metric=bugs)](https://sonarcloud.io/summary/new_code?id=ohk_PKSNavigation) [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=ohk_PKSNavigation&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=ohk_PKSNavigation) [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=ohk_PKSNavigation&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=ohk_PKSNavigation) [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=ohk_PKSNavigation&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=ohk_PKSNavigation)
 
+<a href="https://www.producthunt.com/posts/pksnavigation?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-pksnavigation" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=522367&theme=light" alt="PKSNavigation - SwiftUI&#0044;&#0032;Swift&#0044;&#0032;Navigation&#0044;&#0032;PKSNavigation | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
+
+
 **PKSNavigation** is a simple yet powerful navigation framework designed for SwiftUI applications. It helps you manage complex navigation flows with ease, supporting stack-based navigation, sheet presentations, and full-screen covers. Whether you're building a small app or a large-scale project, PKSNavigation streamlines your navigation logic, making your code cleaner and more maintainable.
 
 ## 🚨 Important Notice
